@@ -6,7 +6,6 @@
     <title>Nosso Ponto de Partida</title>
     
     <style>
-        /* O CSS permanece o mesmo, não precisa mudar nada aqui */
         @import url('https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400..700;1,400..700&family=Montserrat:wght@700&display=swap');
         body{font-family:'Lora',serif;background-color:#0a192f;color:#e6f1ff;margin:0;padding:0;overflow:hidden;display:flex;justify-content:center;align-items:center;min-height:100vh;position:relative}
         .star-field{position:fixed;top:0;left:0;width:100%;height:100%;z-index:-2}
@@ -51,8 +50,8 @@
             <p>Carregando nossa história...</p>
         </div>
         <div id="proposal-container" class="hidden">
-            <h1>Uma Estrela Chamada Você</h1>
-            <div class="content"><p>Eu nunca fui muito de acreditar em destino, mas desde que você apareceu, comecei a questionar tudo. Cada conversa, cada risada e cada momento ao seu lado parece um pequeno pedaço de um universo que eu não conhecia, mas que agora não imagino mais sem.</p></div>
+            <h1>Para a minha Piloto</h1>
+            <div class="content"><p>Eu sempre te admirei, de longe ou de perto, mas foi me aproximando de você que eu entendi o quão especial você é. A cada dia que passa, eu me apaixono mais por descobrir quem você é. E quando eu te chamo de perfeita, quero que entenda: não é por você ser impecável. É porque a sua perfeição, pra mim, está justamente na sua mistura única de qualidades, manias e até dos seus 'defeitos'. É essa combinação que te faz ser você. E é por você que eu sou apaixonado. O nosso encaixe faz mais sentido que qualquer peça de Lego ou quebra-cabeça. Eu me apaixono cada dia mais pela pessoa que você é, em cada detalhe, em cada sorriso, em cada conversa eu sinto que você é a minha pessoa. Eu tenho certeza que a gente pode construir um futuro incrível juntos, onde possamos sempre se apoiar e crescer lado a lado. Enquanto você estuda para conquistar os céus, eu estarei aqui em terra firme, te sentido no meu coração onde você estiver. Para cada passo que você der em direção aos seus sonhos, pode contar com meu coração aplaudindo de pé. Saber que você está buscando seus sonhos me inspira e me enche de um orgulho que mal cabe no peito. A ideia de poder comemorar cada uma de suas vitórias ao seu lado é o que move meu coração. Sou seu maior fã, hoje e sempre. Por tudo isso, e por tudo que ainda vamos descobrir juntos, eu queria te fazer a pergunta mais importante de todas: você aceita começar a escrever essa história comigo e ser minha namorada?</p></div>
             <div class="question">Você quer namorar comigo?</div>
             <div class="buttons"><button id="yesBtn" class="btn">Sim!</button><button id="noBtn" class="btn">Não</button></div>
         </div>
@@ -69,7 +68,7 @@
     </div>
 
     <script>
-        // ★★★ COLE AQUI O URL DO SEU APP DA WEB DO GOOGLE APPS SCRIPT ★★★
+        // ★★★ URL DO APP DA WEB DO GOOGLE APPS SCRIPT ★★★
         const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzDC_enXvi20gnhwKS1STOXh7ZQnFid10ZlBCNP52Z8-hMej1VuD934GYZqCbTyOKXg/exec";
 
         const loadingContainer = document.getElementById('loading-container');
@@ -81,7 +80,7 @@
 
         function iniciarContador(dataInicioISO) {
             if (!dataInicioISO) return;
-            if (timerInterval) clearInterval(timerInterval); // Limpa qualquer timer antigo
+            if (timerInterval) clearInterval(timerInterval); 
 
             const dataInicio = new Date(dataInicioISO);
 
@@ -153,7 +152,7 @@
             });
         }
         
-        // Lógica do botão NÃO (continua a mesma)
+        // Lógica do botão NÃO 
         noBtn.addEventListener('mouseover', () => {
              const containerRect = document.querySelector('.container').getBoundingClientRect();
              const btnRect = noBtn.getBoundingClientRect();
