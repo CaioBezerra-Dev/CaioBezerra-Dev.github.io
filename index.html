@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nosso Ponto de Partida</title>
+    
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400..700;1,400..700&family=Montserrat:wght@700&display=swap');
+
+        body {
+            font-family: 'Lora', serif;
+            background-color: #0a192f;
+            color: #e6f1ff;
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            position: relative;
+        }
+
+        .star-field { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -2; }
+        .star { position: absolute; background-color: white; border-radius: 50%; opacity: 0; animation: twinkle 2s infinite alternate; }
+        @keyframes twinkle { 0% { opacity: 0; transform: scale(0.8); } 100% { opacity: 1; transform: scale(1); } }
+        .airplane { position: fixed; top: 15%; width: 120px; height: 40px; z-index: -1; animation: fly-across 25s linear infinite; }
+        @keyframes fly-across { 0% { left: -150px; transform: rotate(-15deg); } 100% { left: 110%; transform: rotate(-25deg); } }
+        .airplane .fuselage { position: absolute; top: 15px; left: 0; width: 100%; height: 10px; background: linear-gradient(to top, #c0c0c0, #eaeaea); border-radius: 30% 50% 50% 30% / 50%; }
+        .airplane .cockpit { position: absolute; top: 12px; right: 5px; width: 18px; height: 14px; background: #87ceeb; border-radius: 50%; transform: rotate(10deg); }
+        .airplane .left-wing, .airplane .right-wing { position: absolute; background-color: #b0b0b0; width: 55px; height: 10px; left: 30px; border-radius: 5px; }
+        .airplane .left-wing { top: 10px; transform: rotate(25deg); }
+        .airplane .right-wing { top: 20px; transform: rotate(-25deg); }
+        .airplane .tail-vertical { position: absolute; left: 0; top: 8px; width: 10px; height: 20px; background-color: #a0a0a0; clip-path: polygon(0 0, 100% 100%, 0% 100%); }
+        .airplane .tail-horizontal { position: absolute; left: 5px; top: 20px; width: 15px; height: 6px; background-color: #a0a0a0; border-radius: 2px; transform: rotate(10deg); }
+
+        .container { max-width: 800px; margin: 2rem; padding: 2.5rem 3rem; background-color: rgba(17, 34, 64, 0.85); border-radius: 20px; box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4); text-align: center; border: 1px solid rgba(100, 149, 237, 0.3); backdrop-filter: blur(5px); animation: fadeIn 2s ease-in-out; position: relative; z-index: 1; max-height: 90vh; overflow-y: auto; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+        .hidden { display: none; }
+
+        #proposal-container .content p { font-size: 1.1rem; line-height: 1.8; text-align: left; margin-bottom: 1.5rem; white-space: pre-wrap; }
+        h1, .question { font-family: 'Montserrat', sans-serif; font-weight: 700; color: #64ffda; text-shadow: 0 0 10px rgba(100, 255, 218, 0.5); }
+        h1 { font-size: 2.5rem; margin-bottom: 2rem; }
+        .question { font-size: 1.8rem; margin-top: 3rem; margin-bottom: 2rem; }
+        .buttons { display: flex; justify-content: center; gap: 1.5rem; position: relative; }
+        .btn { padding: 1rem 2.5rem; border: none; border-radius: 50px; font-family: 'Montserrat', sans-serif; font-weight: 700; font-size: 1.1rem; cursor: pointer; transition: all 0.3s ease; box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2); }
+        #yesBtn { background-color: #64ffda; color: #0a192f; }
+        #yesBtn:hover { transform: translateY(-3px); box-shadow: 0 7px 20px rgba(100, 255, 218, 0.4); background-color: #79ffe1; }
+        #noBtn { background-color: #ff6b6b; color: #fff; position: absolute; }
+
+        #timer-container h2 { font-family: 'Montserrat', sans-serif; font-size: 2.2rem; color: #ffd700; text-shadow: 0 0 10px rgba(255, 215, 0, 0.5); margin-bottom: 2rem; }
+        .timer-display { display: flex; justify-content: center; align-items: center; gap: 1rem; flex-wrap: wrap; }
+        .time-block { display: flex; flex-direction: column; align-items: center; }
+        .time-block .number { font-family: 'Montserrat', sans-serif; font-size: 2.5rem; font-weight: 700; color: #fff; background-color: rgba(100, 255, 218, 0.1); padding: 0.8rem 1rem; border-radius: 10px; min-width: 60px; }
+        .time-block .label { font-family: 'Lora', serif; margin-top: 0.5rem; font-size: 0.9rem; color: #e6f1ff; text-transform: uppercase; }
+
+        /* ESTILO DO BOTÃO DE RESET ADICIONADO AQUI */
+        #resetBtn {
+            position: absolute;
+            bottom: 15px;
+            right: 15px;
+            background: #444;
+            color: #fff;
+            border: 1px solid #666;
+            border-radius: 5px;
+            padding: 5px 10px;
+            font-size: 0.8rem;
+            cursor: pointer;
+            opacity: 0.5;
+            transition: opacity 0.2s;
+        }
+        #resetBtn:hover { opacity: 1; }
+
+        @media (max-width: 600px) {
+            h1 { font-size: 2rem; }
+            .question { font-size: 1.5rem; }
+            #timer-container h2 { font-size: 1.8rem; }
+            .time-block .number { font-size: 1.8rem; min-width: 40px; padding: 0.6rem 0.8rem;}
+            .timer-display { gap: 0.5rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="star-field"></div>
+    <div class="airplane">
+        <div class="tail-vertical"></div> <div class="tail-horizontal"></div> <div class="fuselage"></div> <div class="left-wing"></div> <div class="right-wing"></div> <div class="cockpit"></div>
+    </div>
+
+    <div class="container">
+        <div id="proposal-container">
+            <h1>Uma Estrela Chamada Você</h1>
+            <div class="content">
+                <p>
+Eu nunca fui muito de acreditar em destino, mas desde que você apareceu, comecei a questionar tudo. Cada conversa, cada risada e cada momento ao seu lado parece um pequeno pedaço de um universo que eu não conhecia, mas que agora não imagino mais sem.
+                </p>
+            </div>
+            <div class="question">Você quer namorar comigo?</div>
+            <div class="buttons">
+                <button id="yesBtn" class="btn">Sim!</button>
+                <button id="noBtn" class="btn">Não</button>
+            </div>
+        </div>
+
+        <div id="timer-container" class="hidden">
+            <h2>Nosso Tempo Juntos</h2>
+            <div class="timer-display">
+                <div class="time-block">
+                    <span class="number" id="milenios">0</span>
+                    <span class="label">Milênios</span>
+                </div>
+                <div class="time-block">
+                    <span class="number" id="seculos">0</span>
+                    <span class="label">Séculos</span>
+                </div>
+                <div class="time-block">
+                    <span class="number" id="decadas">0</span>
+                    <span class="label">Décadas</span>
+                </div>
+                <div class="time-block">
+                    <span class="number" id="anos">0</span>
+                    <span class="label">Anos</span>
+                </div>
+                <div class="time-block">
+                    <span class="number" id="dias">0</span>
+                    <span class="label">Dias</span>
+                </div>
+                <div class="time-block">
+                    <span class="number" id="horas">0</span>
+                    <span class="label">Horas</span>
+                </div>
+                <div class="time-block">
+                    <span class="number" id="minutos">0</span>
+                    <span class="label">Minutos</span>
+                </div>
+                <div class="time-block">
+                    <span class="number" id="segundos">0</span>
+                    <span class="label">Segundos</span>
+                </div>
+            </div>
+            <button id="resetBtn" title="Resetar a página para o estado inicial">Resetar</button>
+        </div>
+    </div>
+
+    <script>
+        // Elementos da página
+        const proposalContainer = document.getElementById('proposal-container');
+        const timerContainer = document.getElementById('timer-container');
+        const yesBtn = document.getElementById('yesBtn');
+        const noBtn = document.getElementById('noBtn');
+        // NOVA CONSTANTE PARA O BOTÃO DE RESET
+        const resetBtn = document.getElementById('resetBtn');
+
+        // Função para iniciar o contador
+        function iniciarContador() {
+            const dataDoSim = localStorage.getItem('dataDoSim');
+            if (!dataDoSim) return;
+
+            const dataInicio = new Date(dataDoSim);
+
+            setInterval(() => {
+                const agora = new Date();
+                const diff = agora - dataInicio;
+
+                const msPorSegundo = 1000;
+                const msPorMinuto = msPorSegundo * 60;
+                const msPorHora = msPorMinuto * 60;
+                const msPorDia = msPorHora * 24;
+                const msPorAno = msPorDia * 365.25;
+                const msPorDecada = msPorAno * 10;
+                const msPorSeculo = msPorDecada * 10;
+                const msPorMilenio = msPorSeculo * 10;
+
+                const milenios = Math.floor(diff / msPorMilenio);
+                const seculos = Math.floor((diff % msPorMilenio) / msPorSeculo);
+                const decadas = Math.floor((diff % msPorSeculo) / msPorDecada);
+                const anos = Math.floor((diff % msPorDecada) / msPorAno);
+                const dias = Math.floor((diff % msPorAno) / msPorDia);
+                const horas = Math.floor((diff % msPorDia) / msPorHora);
+                const minutos = Math.floor((diff % msPorHora) / msPorMinuto);
+                const segundos = Math.floor((diff % msPorMinuto) / msPorSegundo);
+
+                document.getElementById('milenios').textContent = milenios;
+                document.getElementById('seculos').textContent = seculos;
+                document.getElementById('decadas').textContent = decadas;
+                document.getElementById('anos').textContent = anos;
+                document.getElementById('dias').textContent = dias;
+                document.getElementById('horas').textContent = horas.toString().padStart(2, '0');
+                document.getElementById('minutos').textContent = minutos.toString().padStart(2, '0');
+                document.getElementById('segundos').textContent = segundos.toString().padStart(2, '0');
+            }, 1000);
+        }
+
+        function mostrarTelaCorreta() {
+            if (localStorage.getItem('pedidoAceito') === 'sim') {
+                proposalContainer.classList.add('hidden');
+                timerContainer.classList.remove('hidden');
+                iniciarContador();
+            }
+        }
+
+        yesBtn.addEventListener('click', () => {
+            localStorage.setItem('pedidoAceito', 'sim');
+            localStorage.setItem('dataDoSim', new Date().toISOString());
+            
+            proposalContainer.style.transition = 'opacity 0.5s ease-out';
+            proposalContainer.style.opacity = '0';
+            setTimeout(() => {
+                proposalContainer.classList.add('hidden');
+                timerContainer.classList.remove('hidden');
+                iniciarContador();
+            }, 500);
+        });
+
+        noBtn.addEventListener('mouseover', () => {
+             const containerRect = document.querySelector('.container').getBoundingClientRect();
+             const btnRect = noBtn.getBoundingClientRect();
+             const maxX = containerRect.width - btnRect.width;
+             const maxY = containerRect.height - btnRect.height;
+             noBtn.style.left = `${Math.floor(Math.random() * maxX)}px`;
+             noBtn.style.top = `${Math.floor(Math.random() * maxY)}px`;
+        });
+        
+        // LÓGICA DO BOTÃO DE RESET ADICIONADA AQUI
+        resetBtn.addEventListener('click', () => {
+            // Pede confirmação para evitar cliques acidentais
+            if (confirm('Tem certeza que deseja resetar a página para o pedido inicial? A contagem de tempo será perdida.')) {
+                localStorage.removeItem('pedidoAceito');
+                localStorage.removeItem('dataDoSim');
+                location.reload(); // Recarrega a página para voltar ao estado inicial
+            }
+        });
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const starField = document.querySelector('.star-field');
+            for (let i = 0; i < 250; i++) {
+                const star = document.createElement('div');
+                star.className = 'star';
+                const size = Math.random() * 3 + 1;
+                star.style.width = `${size}px`;
+                star.style.height = `${size}px`;
+                star.style.left = `${Math.random() * 100}%`;
+                star.style.top = `${Math.random() * 100}%`;
+                star.style.animationDelay = `${Math.random() * 3}s`;
+                star.style.animationDuration = `${Math.random() * 2 + 2}s`;
+                starField.appendChild(star);
+            }
+            
+            mostrarTelaCorreta();
+        });
+    </script>
+</body>
+</html>
