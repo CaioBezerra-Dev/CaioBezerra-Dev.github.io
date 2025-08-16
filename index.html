@@ -59,6 +59,7 @@
             <h2>Nosso Tempo Juntos</h2>
             <div class="timer-display">
                 <div class="time-block"><span class="number" id="anos">0</span><span class="label">Anos</span></div>
+                <div class="time-block"><span class="number" id="meses">0</span><span class="label">Meses</span></div>
                 <div class="time-block"><span class="number" id="dias">0</span><span class="label">Dias</span></div>
                 <div class="time-block"><span class="number" id="horas">0</span><span class="label">Horas</span></div>
                 <div class="time-block"><span class="number" id="minutos">0</span><span class="label">Minutos</span></div>
@@ -80,24 +81,37 @@
 
         function iniciarContador(dataInicioISO) {
             if (!dataInicioISO) return;
-            if (timerInterval) clearInterval(timerInterval); 
+            if (timerInterval) clearInterval(timerInterval);
 
             const dataInicio = new Date(dataInicioISO);
 
             timerInterval = setInterval(() => {
                 const agora = new Date();
-                const diff = agora - dataInicio;
+                const diff = agora - dataInicio; // Usado para horas, minutos e segundos
+
+                let anos = agora.getFullYear() - dataInicio.getFullYear();
+                let meses = agora.getMonth() - dataInicio.getMonth();
+                let dias = agora.getDate() - dataInicio.getDate();
+
+                if (dias < 0) {
+                    meses--;
+                    // Pega o último dia do mês anterior para calcular os dias corretamente
+                    dias += new Date(agora.getFullYear(), agora.getMonth(), 0).getDate();
+                }
+
+                if (meses < 0) {
+                    anos--;
+                    meses += 12;
+                }
 
                 const msPorDia = 1000 * 60 * 60 * 24;
-                const msPorAno = msPorDia * 365.25;
-
-                const anos = Math.floor(diff / msPorAno);
-                const dias = Math.floor((diff % msPorAno) / msPorDia);
                 const horas = Math.floor((diff % msPorDia) / (1000 * 60 * 60));
                 const minutos = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
                 const segundos = Math.floor((diff % (1000 * 60)) / 1000);
 
+                // Atualiza os elementos na tela
                 document.getElementById('anos').textContent = anos;
+                document.getElementById('meses').textContent = meses; // NOVO
                 document.getElementById('dias').textContent = dias;
                 document.getElementById('horas').textContent = horas.toString().padStart(2, '0');
                 document.getElementById('minutos').textContent = minutos.toString().padStart(2, '0');
