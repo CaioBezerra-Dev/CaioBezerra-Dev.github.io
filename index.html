@@ -71,8 +71,7 @@
                 <div class="time-block"><span class="number" id="dias">0</span><span class="label">Dias</span></div>
                 <div class="time-block"><span class="number" id="horas">0</span><span class="label">Horas</span></div>
                 <div class="time-block"><span class="number" id="minutos">0</span><span class="label">Minutos</span></div>
-                <div class="time-block"><span class="number" id="segundos">0</span><span class="label">Segundos</span></div>
-            </div>
+                </div>
         </div>
     </div>
 
@@ -95,7 +94,7 @@
         const timerContainer = document.getElementById('timer-container');
         const yesBtn = document.getElementById('yesBtn');
         const noBtn = document.getElementById('noBtn');
-        let timerInterval; // Variável para guardar nosso intervalo
+        let timerInterval; 
 
         function iniciarContador(dataInicioISO) {
             if (!dataInicioISO) return;
@@ -103,7 +102,7 @@
 
             const dataInicio = new Date(dataInicioISO);
 
-            timerInterval = setInterval(() => {
+            const atualizarContador = () => {
                 const agora = new Date();
                 const diff = agora - dataInicio;
 
@@ -124,15 +123,18 @@
                 const msPorDia = 1000 * 60 * 60 * 24;
                 const horas = Math.floor((diff % msPorDia) / (1000 * 60 * 60));
                 const minutos = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
-                const segundos = Math.floor((diff % (1000 * 60)) / 1000);
 
                 document.getElementById('anos').textContent = anos;
                 document.getElementById('meses').textContent = meses;
                 document.getElementById('dias').textContent = dias;
                 document.getElementById('horas').textContent = horas.toString().padStart(2, '0');
                 document.getElementById('minutos').textContent = minutos.toString().padStart(2, '0');
-                document.getElementById('segundos').textContent = segundos.toString().padStart(2, '0');
-            }, 1000);
+                
+            };
+
+            atualizarContador(); 
+
+            timerInterval = setInterval(atualizarContador, 60000);
         }
 
         function mostrarTela(tela) {
