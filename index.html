@@ -11,15 +11,27 @@
         .star-field{position:fixed;top:0;left:0;width:100%;height:100%;z-index:-2}
         .star{position:absolute;background-color:white;border-radius:50%;opacity:0;animation:twinkle 2s infinite alternate}
         @keyframes twinkle{0%{opacity:0;transform:scale(.8)}100%{opacity:1;transform:scale(1)}}
-        .airplane{position:fixed;top:15%;width:120px;height:40px;z-index:0;animation:fly-across 25s linear infinite;cursor:pointer;}
-        @keyframes fly-across{0%{left:-150px;transform:rotate(-15deg)}100%{left:110%;transform:rotate(-25deg)}}
-        .airplane .fuselage{position:absolute;top:15px;left:0;width:100%;height:10px;background:linear-gradient(to top,#c0c0c0,#eaeaea);border-radius:30% 50% 50% 30% / 50%}
-        .airplane .cockpit{position:absolute;top:12px;right:5px;width:18px;height:14px;background:#87ceeb;border-radius:50%;transform:rotate(10deg)}
-        .airplane .left-wing,.airplane .right-wing{position:absolute;background-color:#b0b0b0;width:55px;height:10px;left:30px;border-radius:5px}
-        .airplane .left-wing{top:10px;transform:rotate(25deg)}
-        .airplane .right-wing{top:20px;transform:rotate(-25deg)}
-        .airplane .tail-vertical{position:absolute;left:0;top:8px;width:10px;height:20px;background-color:#a0a0a0;clip-path:polygon(0 0,100% 100%,0% 100%)}
-        .airplane .tail-horizontal{position:absolute;left:5px;top:20px;width:15px;height:6px;background-color:#a0a0a0;border-radius:2px;transform:rotate(10deg)}
+
+        .airplane{
+            position:fixed;
+            top:15%;
+            width:180px;
+            z-index:0;
+            animation:fly-across 25s linear infinite;
+            cursor:pointer;
+        }
+        .airplane img{
+            width:100%;
+            height:auto;
+            display:block;
+            user-select:none;
+            pointer-events:none;
+        }
+        @keyframes fly-across{
+            0%{left:-150px; transform:scaleX(-1) rotate(5deg);}
+            100%{left:110%; transform:scaleX(-1) rotate(-10deg);}
+        }
+
         .container{max-width:800px;margin:2rem;padding:2.5rem 3rem;background-color:rgba(17,34,64,.85);border-radius:20px;box-shadow:0 10px 30px rgba(0,0,0,.4);text-align:center;border:1px solid rgba(100,149,237,.3);backdrop-filter:blur(5px);animation:fadeIn 2s ease-in-out;position:relative;z-index:1;max-height:90vh;overflow-y:auto}
         @keyframes fadeIn{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
         .hidden{display:none}
@@ -50,9 +62,11 @@
 </head>
 <body>
     <div class="star-field"></div>
+
     <div class="airplane">
-        <div class="tail-vertical"></div> <div class="tail-horizontal"></div> <div class="fuselage"></div> <div class="left-wing"></div> <div class="right-wing"></div> <div class="cockpit"></div>
+        <img src="a350.png" alt="Avião">
     </div>
+
     <div class="container">
         <div id="loading-container">
             <p>Carregando nossa história...</p>
@@ -71,7 +85,7 @@
                 <div class="time-block"><span class="number" id="dias">0</span><span class="label">Dias</span></div>
                 <div class="time-block"><span class="number" id="horas">0</span><span class="label">Horas</span></div>
                 <div class="time-block"><span class="number" id="minutos">0</span><span class="label">Minutos</span></div>
-                </div>
+            </div>
         </div>
     </div>
 
@@ -86,7 +100,6 @@
     </div>
 
     <script>
-        // ★★★ URL DO APP DA WEB DO GOOGLE APPS SCRIPT ★★★
         const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzDC_enXvi20gnhwKS1STOXh7ZQnFid10ZlBCNP52Z8-hMej1VuD934GYZqCbTyOKXg/exec";
 
         const loadingContainer = document.getElementById('loading-container');
@@ -129,11 +142,9 @@
                 document.getElementById('dias').textContent = dias;
                 document.getElementById('horas').textContent = horas.toString().padStart(2, '0');
                 document.getElementById('minutos').textContent = minutos.toString().padStart(2, '0');
-                
             };
 
             atualizarContador(); 
-
             timerInterval = setInterval(atualizarContador, 60000);
         }
 
